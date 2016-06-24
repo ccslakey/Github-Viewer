@@ -1,12 +1,12 @@
 import React from 'react';
 import request from 'superagent';
-import { IndexLink, Link } from 'react-router';
+import {IndexLink} from 'react-router';
 
 class User extends React.Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			feed: []
+			feed: [],
 		}
 	}
 
@@ -16,28 +16,38 @@ class User extends React.Component {
 			.end((error, response) => {
 				if (!error && response) {
 					this.setState({ feed: response.body });
-					console.dir(response.body);
+					// console.dir(response.body);
 				} else {
-					console.log(`Error fetching user data.`, error);
+					// console.log(`Error fetching user data.`, error);
 				}
 			}
 		);
 	}
 
 	render() {
-		return <ul>
-	        {this.state.feed.map((event, index) => {
-	            const eventType = event.type;
-	            const repoName = event.repo.name;
-	            const creationDate = event.created_at;
+		return (<div>
+			<p>You are here:
+			<IndexLink to='/' activeClassName='active'>Home</IndexLink> > {this.props.params.user} </p>
+			<ul>
+		        {this.state.feed.map((event, index) => {
+		            const eventType = event.type;
+		            const repoName = event.repo.name;
+		            const creationDate = event.created_at;
 
-	            return (<li key={index}>
-	                <strong>{repoName}</strong>: {eventType} at {new Date(creationDate).toLocaleString()}.
-	            </li>);
-	        })}
-	    </ul>;
+		            return (<li key={index}>
+		                <strong>{repoName}</strong>: {eventType} at {new Date(creationDate).toLocaleString()}.
+		            </li>);
+		        })}
+		    </ul>
+
+
+			</div>);
 	}
 
 }
+
+User.propTypes = {
+    params: React.PropTypes.object,
+};
 
 export default User;
