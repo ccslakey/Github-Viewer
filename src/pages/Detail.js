@@ -21,15 +21,16 @@ class Detail extends React.Component {
 		this.fetchFeed('pulls');
 	}
 
-	fetchFeed(type) {
+	fetchFeed(type, name = "facebook") {
 		if (this.props.params.repo === ''){
 			// woops, there's no name here, aka save me on API limits
 			return;
 		}
-		const baseURL = 'https://api.github.com/repos/facebook';
+		const baseURL = `https://api.github.com/repos/${name}`;
 		request.get(`${baseURL}/${this.props.params.repo}/${type}`)
 	        .end((error, response) => {
 	            if (!error && response) {
+					// console.dir(response.body);
 	                this.saveFeed(type, response.body);
 	            } else {
 	                // console.log(`Error fetching ${type}`, error);
@@ -51,8 +52,9 @@ class Detail extends React.Component {
 	        const author = commit.author ? commit.author.login : 'Anonymous';
 
 	        return (<p key={index} className='github'>
-	            <Link to={ `/user/${author}` }>{author}</Link >:
-	            <a href={commit.html_url}>{commit.commit.message}</a>.
+				<Link to={`/user/${author}`}>{author}</Link >:
+
+				<a href={commit.html_url}>{commit.commit.message.substring(0, 300)}</a>
 	        </p>);
 	    });
 	}
@@ -73,7 +75,7 @@ class Detail extends React.Component {
 
 	        return (<p key={index} className='github'>
 				<Link to={ `/user/${user}` }>{user}</Link>:
-	            <a href={pull.html_url}>{pull.body}</a>.
+	            <a href={pull.html_url}>{pull.body.substring(0, 200)}</a>.
 	        </p>);
 	    });
 	}

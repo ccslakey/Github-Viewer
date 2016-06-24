@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --verbose",
-	"lint": "eslint src; exit 0",
+    "lint": "eslint src; exit 0",
     "start": "webpack-dev-server  --progress --colors"
   },
   "keywords": [],
@@ -45,9 +45,11 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
+    "auth0-lock": "^9.2.1",
     "chance": "^1.0.3",
     "history": "^3.0.0",
     "react": "^15.1.0",
+    "react-bootstrap": "^0.29.5",
     "react-dom": "^15.1.0",
     "react-router": "^2.4.1",
     "superagent": "^2.0.0"
