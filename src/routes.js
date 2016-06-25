@@ -10,10 +10,10 @@ import UserLookup from './pages/UserLookup';
 
 const routes = (
 	<Route path="/" component={ App } >
-		<IndexRoute component={ List } />
-		<Route path="/lookup" component={ UserLookup } />
+		<IndexRoute component={ UserLookup } />
 		<Route path="user/:user" component={ User } />
 		<Route path="/detail/:repo" component={ Detail } />
+		<Route path="/list" component={ List } />
 	</Route>
 );
 

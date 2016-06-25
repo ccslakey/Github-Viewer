@@ -8,6 +8,7 @@ class List extends React.Component {
 
 		this.state = {
 			repos: ['react', 'react-native', 'jest'],
+			org: "facebook",
 		}
 	}
 
@@ -15,7 +16,7 @@ class List extends React.Component {
 		this.getRepos();
 	}
 
-	getRepos(user = "facebook" || this.props.org) {
+	getRepos(user = this.state.org || "facebook") {
 		const baseURL = `https://api.github.com/users/${user}/repos?page=1&per_page=100`;
 		request.get(`${baseURL}`)
 			.end((error, response) => {

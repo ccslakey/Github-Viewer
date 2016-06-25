@@ -1,7 +1,7 @@
 import React from 'react';
 import request from 'superagent';
 import { IndexLink, Link } from 'react-router';
-
+import {Button} from 'react-bootstrap';
 
 class Detail extends React.Component {
 	constructor(props) {
@@ -16,9 +16,7 @@ class Detail extends React.Component {
 	}
 
 	componentWillMount() {
-		this.fetchFeed('commits');
-		this.fetchFeed('forks');
-		this.fetchFeed('pulls');
+		this.selectMode('commits');
 	}
 
 	fetchFeed(type, name = "facebook") {
@@ -45,6 +43,19 @@ class Detail extends React.Component {
 
 	selectMode(mode){
 		this.setState({mode});
+	}
+
+	renderDetailItems() {
+		let content;
+		if (this.state.mode === 'commits') {
+			content = this.renderCommits();
+		} else if (this.state.mode === 'forks') {
+			content = this.renderForks();
+		} else {
+			content = this.renderPulls();
+		}
+
+		return content;
 	}
 
 	renderCommits() {
@@ -81,21 +92,14 @@ class Detail extends React.Component {
 	}
 
     render() {
-        let content;
-        if (this.state.mode === 'commits') {
-            content = this.renderCommits();
-        } else if (this.state.mode === 'forks') {
-            content = this.renderForks();
-        } else {
-            content = this.renderPulls();
-        }
+
 
 		return (<div>
 			<p>You are here: <IndexLink to="/" activeClassName="active">Home </IndexLink> > {this.props.params.repo}</p>
-		    <button ref='commits' onClick={this.selectMode.bind(this, 'commits')}>Show Commits</button>
-		    <button ref='forks' onClick={this.selectMode.bind(this, 'forks')}>Show Forks</button>
-		    <button ref='pulls' onClick={this.selectMode.bind(this, 'pulls')}>Show Pulls</button>
-		    {content}
+		    <Button ref='commits' className="primary" onClick={this.selectMode.bind(this, 'commits')}>Show Commits</Button>
+		    <Button ref='forks' className="primary" onClick={this.selectMode.bind(this, 'forks')}>Show Forks</Button>
+		    <Button ref='pulls' className="primary" onClick={this.selectMode.bind(this, 'pulls')}>Show Pulls</Button>
+		    {this.renderDetailItems()}
 		</div>);
     }
 }

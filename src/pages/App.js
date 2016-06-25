@@ -1,5 +1,5 @@
 import React from 'react';
-// import Auth from '../Auth';
+import { PageHeader, Grid }from 'react-bootstrap';
 import request from 'superagent';
 
 import * as Auth from '../../secrets.js';
@@ -14,9 +14,11 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<h1>Super Duper Unofficial Github Browser v0.1</h1>
-				
+				<Grid>
+				<PageHeader>Super Duper Unofficial Github Browser v0.1</PageHeader>
+
 				{this.props.children}
+				</Grid>
 			</div>
 		);
 	}
