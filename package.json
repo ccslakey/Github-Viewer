@@ -46,12 +46,16 @@
   },
   "dependencies": {
     "auth0-lock": "^9.2.1",
+    "body-parser": "^1.15.2",
     "chance": "^1.0.3",
+    "express": "^4.14.0",
+    "express-oauth-server": "^1.0.0",
     "history": "^3.0.0",
     "react": "^15.1.0",
     "react-bootstrap": "^0.29.5",
     "react-dom": "^15.1.0",
     "react-router": "^2.4.1",
-    "superagent": "^2.0.0"
+    "superagent": "^2.0.0",
+    "whatwg-fetch": "^1.0.0"
   }
 }

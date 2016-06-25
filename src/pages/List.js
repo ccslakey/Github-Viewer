@@ -1,6 +1,5 @@
 import React from 'react'
 import { IndexLink, Link } from 'react-router';
-import OrgSelector from './orgSelector';
 import request from 'superagent';
 
 class List extends React.Component {
@@ -8,7 +7,7 @@ class List extends React.Component {
 		super(props);
 
 		this.state = {
-			repos: ['react', 'react-native', 'jest']
+			repos: ['react', 'react-native', 'jest'],
 		}
 	}
 
@@ -16,16 +15,15 @@ class List extends React.Component {
 		this.getRepos();
 	}
 
-	getRepos(user = "facebook") {
-		this.setState({user})
+	getRepos(user = "facebook" || this.props.org) {
 		const baseURL = `https://api.github.com/users/${user}/repos?page=1&per_page=100`;
 		request.get(`${baseURL}`)
 			.end((error, response) => {
 				if (!error && response) {
-					console.dir(response);
+					// console.dir(response);
 					this.setState({repos:response.body})
 				} else {
-					// console.log(`Error fetching ${type}`, error);
+					console.log(`Error fetching ${type}`, error);
 				}
 			}
 		);
@@ -51,7 +49,8 @@ class List extends React.Component {
 
 		return (
             <div>
-				<p>You are here: <IndexLink to="/" activeClassName="active">Home</IndexLink></p>
+				<p>You are viewing: <IndexLink to="/" activeClassName="active">Facebook</IndexLink></p>
+				<p><Link to="/lookup">Look up another user or organization</Link></p>
                 <p>Please choose a repository from the list below.</p>
                 <ul>
                     <li><Link to="/detail/react" className='user-repo'>React</Link></li>
@@ -60,7 +59,8 @@ class List extends React.Component {
 					{content}
                 </ul>
             </div>
-        );    }
+        );
+	}
 }
 
 
