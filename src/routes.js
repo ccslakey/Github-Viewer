@@ -12,7 +12,7 @@ const routes = (
 	<Route path="/" component={ App } >
 		<IndexRoute component={ UserLookup } />
 		<Route path="user/:user" component={ User } />
-		<Route path="/detail/:repo" component={ Detail } />
+		<Route path="user/:user/detail/:repo" component={ Detail } />
 		<Route path="/list" component={ List } />
 	</Route>
 );

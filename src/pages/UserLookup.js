@@ -14,6 +14,10 @@ class UserLookup extends React.Component {
 		}
 	}
 
+	componentWillMount() {
+		this.searchForUsers('facebook');
+	}
+
     handleInput(event) {
 		event.preventDefault();
 		this.setState({input: event.target.value});
@@ -26,8 +30,9 @@ class UserLookup extends React.Component {
 		this.searchForUsers();
 	}
 
-	searchForUsers() {
-		let searchQuery = this.state.input;
+
+	searchForUsers(willMountInput = undefined) {
+		let searchQuery = this.state.input || willMountInput;
 		const baseURL = `https://api.github.com/search/users?q=${searchQuery}`;
 		request.get(`${baseURL}`)
 			.end((error, response) => {
@@ -42,7 +47,6 @@ class UserLookup extends React.Component {
 	}
 
     render() {
-		let notice = this.state.searchQuery ?  <p>Looking for {this.state.searchQuery} </p> : null;
 
 		return (
 		  <div>
@@ -64,7 +68,7 @@ class UserLookup extends React.Component {
 
 			</form>
 		  </Jumbotron>
-		  {notice}
+		  <p>Looking for {this.state.searchQuery || 'facebook'} </p>
 
 		  <UserList users={this.state.users}/>
 		</div>

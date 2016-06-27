@@ -16,22 +16,38 @@ class Detail extends React.Component {
 	}
 
 	componentWillMount() {
-		this.selectMode('commits');
+		this.fetchFeed();
+		switch (this.state.mode){
+			case 'commits':
+				this.fetchFeed('commits');
+				break;
+			case 'forks':
+				this.fetchFeed('forks');
+				break;
+			case 'pulls':
+				this.fetchFeed('pulls');
+				break;
+			default:
+				break;
+		}
 	}
 
-	fetchFeed(type, name = "facebook") {
+
+
+	fetchFeed(type = this.state.mode, name = this.props.params.user) {
 		if (this.props.params.repo === ''){
 			// woops, there's no name here, aka save me on API limits
 			return;
 		}
+
 		const baseURL = `https://api.github.com/repos/${name}`;
 		request.get(`${baseURL}/${this.props.params.repo}/${type}`)
 	        .end((error, response) => {
 	            if (!error && response) {
-					// console.dir(response.body);
+					console.dir(response.body);
 	                this.saveFeed(type, response.body);
 	            } else {
-	                // console.log(`Error fetching ${type}`, error);
+	                console.log(`Error fetching ${type}`, error);
 	            }
 	        }
 	    );
@@ -43,6 +59,7 @@ class Detail extends React.Component {
 
 	selectMode(mode){
 		this.setState({mode});
+		this.fetchFeed(mode);
 	}
 
 	renderDetailItems() {
@@ -92,8 +109,6 @@ class Detail extends React.Component {
 	}
 
     render() {
-
-
 		return (<div>
 			<p>You are here: <IndexLink to="/" activeClassName="active">Home </IndexLink> > {this.props.params.repo}</p>
 		    <Button ref='commits' className="primary" onClick={this.selectMode.bind(this, 'commits')}>Show Commits</Button>
